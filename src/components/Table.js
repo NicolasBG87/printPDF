@@ -8,7 +8,7 @@ const Table = ({ data, columns }) => {
         if (!columnElements) {
             columnElements = Object.keys(data[0]).map(label => label.charAt(0).toUpperCase() + label.slice(1));
         }
-        return columnElements.map(col => <TableCell>{col}</TableCell>);
+        return columnElements.map((col, index) => <TableCell key={`table-header-${index}`}>{col}</TableCell>);
     };
 
     return (

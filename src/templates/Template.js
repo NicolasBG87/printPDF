@@ -8,28 +8,28 @@ const { Document, Text, Image, View, Page, StyleSheet } = require('@react-pdf/re
 const { data } = require('../faker/data'); // here we would fetch the data from our API
 
 const Template = ({ config }) => {
-    const renderElement = (item) => {
+    const renderElement = (item, index) => {
         if (item.type === 'header') {
             return (
-                <Header fixed={item.fixed} components={item.components} />
+                <Header fixed={item.fixed} components={item.components} key={`page-element-${index}`} />
             );
         }
 
         if (item.type === 'image') {
             return (
-                <Image src={item.data} />
+                <Image src={item.data} key={`page-element-${index}`} />
             );
         }
 
         if (item.type === 'text') {
             return (
-                <Text style={{ fontSize: 12, marginVertical: 5 }}>{item.data}</Text>
+                <Text style={{ fontSize: 12, marginVertical: 5 }} key={`page-element-${index}`}>{item.data}</Text>
             );
         }
 
         if (item.type === 'title') {
             return (
-                <View style={{ marginVertical: 10 }}>
+                <View style={{ marginVertical: 10 }} key={`page-element-${index}`}>
                     <Text style={styles.title}>{item.data}</Text>
                     {item.caption && (
                         <Text style={styles.caption}>{item.caption}</Text>
@@ -43,17 +43,18 @@ const Template = ({ config }) => {
                 <Table
                     data={data}
                     columns={item.columns}
+                    key={`page-element-${index}`}
                 />
             );
         }
 
         if (item.type === 'footer') {
             return (
-                <View fixed={item.fixed} style={styles.footer}>
+                <View fixed={item.fixed} style={styles.footer} key={`page-element-${index}`}>
                     <View style={styles.footerTop}>
-                        {item.components.map(cp => {
+                        {item.components.map((cp, index) => {
                             if (cp.type === 'image') {
-                                return <Image src={cp.data} style={styles.footerImage} />
+                                return <Image key={`footer-component-${index}`} src={cp.data} style={styles.footerImage} />
                             }
 
                             return renderElement(cp);
@@ -74,7 +75,7 @@ const Template = ({ config }) => {
     return (
         <Document>
             <Page style={styles.page}>
-                {config.map(item => renderElement(item))}
+                {config.map((item, index) => renderElement(item, index))}
             </Page>
         </Document>
     );

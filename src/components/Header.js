@@ -4,12 +4,12 @@ const { View, StyleSheet, Image, Text } = require('@react-pdf/renderer');
 const Header = ({ fixed, components }) => {
     return (
         <View fixed={fixed} style={styles.header}>
-            {components.map(cp => {
+            {components.map((cp, index) => {
                 if (cp.type === 'image') {
-                    return <Image src={cp.data} style={styles.headerImage} />
+                    return <Image src={cp.data} style={styles.headerImage} key={`header-component-${index}`} />;
                 }
 
-                return <Text style={{ fontSize: 10 }}>{cp.data}</Text>
+                return <Text style={{ fontSize: 10 }} key={`header-component-${index}`}>{cp.data}</Text>;
             })}
         </View>
     );
